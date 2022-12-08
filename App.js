@@ -19,22 +19,6 @@ import store from './src/redux/store';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
-  const leftToRightAnimation = {
-    cardStyleInterpolator: ({ current, layouts }) => {
-      return {
-        cardStyle: {
-          transform: [
-            {
-              translateX: current.progress.interpolate({
-                inputRange: [0, 1],
-                outputRange: [-layouts.screen.width, 0],
-              }),
-            },
-          ],
-        },
-      };
-    },
-  };
 
   return (
     <NavigationContainer>

@@ -12,10 +12,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setUserSlice} from '../redux/slice/user';
 import {deleteUserSlice} from '../redux/slice/users';
 import get from 'lodash/get';
+import { DELETE_USER_BY_ID, GET_USERS, UPDATE_USER_BY_ID } from '../redux/sagas/types';
 
 const Details = ({navigation}) => {
   const data = useSelector(state => state.users);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();  
 
   const RenderItem = (user, name) => {
     const userId = get(user,'id',null)
@@ -58,13 +59,13 @@ const Details = ({navigation}) => {
   };
 
   const delUser = userId => {
-    return dispatch(deleteUserSlice(userId));
+    dispatch({type:DELETE_USER_BY_ID,id:userId})
   };
 
   const createUser = () => {
-    console.log('Inside');
     navigation.navigate('Home');
   };
+
 
 
   return (

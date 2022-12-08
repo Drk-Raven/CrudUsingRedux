@@ -1,3 +1,8 @@
+import {all} from 'redux-saga/effects'
+import {watchUsersAsync} from './user'
+
 export function* rootSaga () {
-    console.log("RootSaga called")
+    yield all([
+        watchUsersAsync()
+    ])
 }

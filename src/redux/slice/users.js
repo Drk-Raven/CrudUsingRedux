@@ -10,8 +10,9 @@ const users = createSlice({
       password: '',
     },
   ],
-  reducers: {
+  reducers: {    
     getUsersSlice: (state, action) => {
+      state=action.payload
       return state;
     },
     addUserSlice: (state, action) => {
@@ -19,12 +20,10 @@ const users = createSlice({
        return state
     },
     editUserSlice: (state, action) => {
-      console.log('Edit')
         state = state.map(i=>i.id === action.payload.id?action.payload:i);
         return state
      },
      deleteUserSlice: (state, action) => {
-      console.log("fe;")
         state = state.filter(i=>i.id !== action.payload)
         return state
      },
