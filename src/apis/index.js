@@ -2,7 +2,7 @@ import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8001'
 
-export const getUserAPI = async () => {axios.get('/users')}
+export const getUsersAPI = async () => {axios.get('/users')}
 
 export const getUserByIdAPI = async (id) => {axios.get(`/users/${id}`)}
 

@@ -17,24 +17,38 @@ const Details = ({navigation}) => {
   const data = useSelector(state => state.users);
   const dispatch = useDispatch();
 
-  const RenderItem = (data, name) => {
-    const userName = get(data, 'data.name', null);
+  const RenderItem = (user, name) => {
+    const userId = get(user,'id',null)
+    const userName = get(user,'name',null)
+    const userEmail = get(user,'email',null)
+    const dataToShow = (name === 'Name')?userName:userEmail
+    const isEdit = (name === "Edit")
+
     return (
-      <View style={styles.renderStyle}>
+      <>{!isEdit &&(
+        <View style={styles.renderStyle}>
         <Text numberOfLines={1} style={{color: 'black'}}>
-          {userName}{' '}
+          {dataToShow}
         </Text>
       </View>
-    );
-  };
-  const RenderEmail = (data, name) => {
-    const userEmail = get(data, 'data.email', null);
-    return (
-      <View style={styles.renderStyle}>
-        <Text numberOfLines={1} style={{color: 'black'}}>
-          {userEmail}{' '}
-        </Text>
+      )
+      }
+      {isEdit && (
+        <View style={styles.renderStyle}>
+        <TouchableOpacity
+          style={styles.btnStyle}
+          onPress={() => editUser(user)}>
+          <Text style={{color: 'black'}}>edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.delStyle}
+          onPress={() => delUser(userId)}>
+          <Text style={{color: 'white'}}>delete</Text>
+        </TouchableOpacity>
       </View>
+
+      )}
+      </>
     );
   };
 
@@ -48,29 +62,10 @@ const Details = ({navigation}) => {
   };
 
   const createUser = () => {
-    console.log("Inside")
-    navigation.navigate('Home')
-  }
-
-  const RenderEdit = data => {
-    const userId = get(data, 'data.id', null);
-    const userData = get(data, 'data', null);
-
-    return (
-      <View style={styles.renderStyle}>
-        <TouchableOpacity
-          style={styles.btnStyle}
-          onPress={() => editUser(userData)}>
-          <Text style={{color: 'black'}}>edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.delStyle}
-          onPress={() => delUser(userId)}>
-          <Text style={{color: 'white'}}>delete</Text>
-        </TouchableOpacity>
-      </View>
-    );
+    console.log('Inside');
+    navigation.navigate('Home');
   };
+
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -85,26 +80,18 @@ const Details = ({navigation}) => {
           <Text style={styles.textStyle}>Options</Text>
         </View>
       </View>
-      <View style={styles.title}>
-        <View style={styles.content}>
-          {data.map((item, _index) => (
-            <RenderItem data={item} name={true} />
-          ))}
-        </View>
-        <View style={styles.content}>
-          {data.map((item, _index) => (
-            <RenderEmail data={item} name={false} />
-          ))}
-        </View>
-        <View style={styles.content}>
-          {data.map((item, _index) => (
-            <RenderEdit data={item} />
-          ))}
-        </View>
-      </View>
+      {data.map((item, _index) => {
+        return (
+          <View style={styles.title}>
+            <View style={styles.content}>{RenderItem(item, 'Name')}</View>
+            <View style={styles.content}>{RenderItem(item, 'Email')}</View>
+            <View style={styles.content}>{RenderItem(item, 'Edit')}</View>
+          </View>
+        );
+      })}
       <View style={styles.container}>
-        <TouchableOpacity style={styles.container} onPress={createUser} >
-          <Text style={{color:'black',fontSize:15}} >CREATE</Text>
+        <TouchableOpacity style={styles.container} onPress={createUser}>
+          <Text style={{color: 'black', fontSize: 15}}>CREATE</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -162,16 +149,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 5,
   },
-  container:{
-    color:'white',
-    alignItems:'center',
-    justifyContent:'center',
-    margin:20,
-    height:40,
-    backgroundColor:'#94b8f2',
-    borderRadius:20,
-
-  }
+  container: {
+    color: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+    height: 40,
+    backgroundColor: '#94b8f2',
+    borderRadius: 20,
+  },
 });
 
 export default Details;
