@@ -9,24 +9,22 @@ import {
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUserSlice} from '../redux/slice/user';
-import {addUserSlice,editUserSlice} from '../redux/slice/users';
-import { nanoid } from '@reduxjs/toolkit';
+import {addUserSlice, editUserSlice} from '../redux/slice/users';
+import {nanoid} from '@reduxjs/toolkit';
+import {CREATE_USERS, UPDATE_USER_BY_ID} from '../redux/sagas/types';
 
 const Home = ({navigation}) => {
-  // const initialState = {
-  //   id: 1,
-  //   name: '',
-  //   email: '',
-  //   password: '',
-  // };
-  // const [state, setState] = useState(initialState);
-  const state = useSelector(state => state.user);
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
-
-  console.log('state=---', state);
-
+  const handleChange = prop => event => {
+    dispatch(setUserSlice({...user, [prop]: event.target.value}));
+  };
   const handleSubmit = () => {
-    state.id === 0 ? dispatch(addUserSlice({...state,id:nanoid(8)})) : dispatch(editUserSlice(state));
+    console.log('User',user)
+    user.id === 0
+      ? dispatch({type: CREATE_USERS, user: {...user, id: nanoid(8)}})
+      : dispatch({type: UPDATE_USER_BY_ID, user});
+
     dispatch(
       setUserSlice({
         id: 0,
@@ -35,10 +33,9 @@ const Home = ({navigation}) => {
         password: '',
       }),
     );
-
-    navigation.navigate('Details');
+    navigation.navigate('Details')
   };
-  const isAllValuePresent = state.name && state.email && state.password;
+  const isAllValuePresent = user.name && user.email && user.password;
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -50,19 +47,19 @@ const Home = ({navigation}) => {
               placeholder="Enter Name"
               placeholderTextColor="gray"
               onChangeText={text => {
-                dispatch(setUserSlice({...state, name: text}));
+                dispatch(setUserSlice({...user, name: text}));
               }}
-              value = {state.name}
+              value={user.name}
             />
             <TextInput
               style={styles.textInputField}
               placeholder="Enter email"
               placeholderTextColor="gray"
               onChangeText={text => {
-                dispatch(setUserSlice({...state, email: text}));
+                dispatch(setUserSlice({...user, email: text}));
               }}
               textContentType={'emailAddress'}
-                value = {state.email}
+              value={user.email}
             />
             <TextInput
               style={styles.textInputField}
@@ -70,9 +67,9 @@ const Home = ({navigation}) => {
               placeholder="Enter Password"
               placeholderTextColor="gray"
               onChangeText={text => {
-                dispatch(setUserSlice({...state, password: text}));
+                dispatch(setUserSlice({...user, password: text}));
               }}
-                value = {state.password}
+              value={user.password}
             />
             <TouchableOpacity
               style={styles.btnStyle}
