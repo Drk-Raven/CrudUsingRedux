@@ -19,6 +19,7 @@ export function* createUserSaga(action) {
 }
 
 export function* updateUserSaga(action) {
+    console.log("Inside updateSaga Fn",action)
     yield updateUserAPI(action.user)
     yield put(editUserSlice(action.user))
 }

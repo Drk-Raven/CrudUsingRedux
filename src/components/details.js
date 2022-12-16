@@ -3,23 +3,21 @@ import {
   Text,
   ScrollView,
   StyleSheet,
-  Button,
   TouchableOpacity,
-  FlatList,
 } from 'react-native';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {setUserSlice} from '../redux/slice/user';
-import {deleteUserSlice} from '../redux/slice/users';
 import get from 'lodash/get';
 import { DELETE_USER_BY_ID, GET_USERS, UPDATE_USER_BY_ID } from '../redux/sagas/types';
 
 const Details = ({navigation}) => {
   const data = useSelector(state => state.users);
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch(); 
+  React.useEffect(()=>dispatch({type:getU})) 
 
   const RenderItem = (user, name) => {
     const userId = get(user,'id',null)
+    
     const userName = get(user,'name',null)
     const userEmail = get(user,'email',null)
     const dataToShow = (name === 'Name')?userName:userEmail
@@ -54,7 +52,8 @@ const Details = ({navigation}) => {
   };
 
   const editUser = userData => {
-    dispatch(setUserSlice(userData));
+    // dispatch(setUserSlice(userData));
+    dispatch({type:UPDATE_USER_BY_ID,user:userData})
     navigation.navigate('Home');
   };
 

@@ -11,6 +11,9 @@ import {
 import Home from './src/components/home';
 import Details from './src/components/details';
 import DataTables from './src/components/dataTables';
+import LogIn from './src/components/login'
+import AnimatedBackground from './src/components/animatedBackground'
+import BarCharts from './src/components/barChart';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -23,14 +26,35 @@ const App = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
+        <Stack.Navigator initialRouteName="AnimatedBackground">
+          {/* <Stack.Screen
             name="Home"
             component={Home}
             options={{
               headerTintColor: 'white',
               headerStyle: {
                 backgroundColor: '#0e0b26',
+              },
+            }}
+          /> */}
+           <Stack.Screen
+            name="AnimatedBackground"
+            component={AnimatedBackground}
+            options={{
+              headerShown:false,
+              headerStyle: {
+                backgroundColor: '#DAF0F7',
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LogIn}
+            options={{
+              headerShown:false,
+              headerTintColor:'red',
+              headerStyle: {
+                backgroundColor: '#DAF0F7',
               },
             }}
           />
@@ -46,6 +70,13 @@ const App = () => {
                 backgroundColor: '#0e0b26',
               },
             }}/>
+            <Stack.Screen
+            name="BarChart"
+            component={BarCharts}
+            options={{
+              headerShown:false,
+            }}
+          />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

@@ -20,8 +20,10 @@ const users = createSlice({
        return state
     },
     editUserSlice: (state, action) => {
-        state = state.map(i=>i.id === action.payload.id?action.payload:i);
-        return state
+      console.log('EditSlic---State',state)
+      console.log('EditSlic---Action',action)
+      state = state.map(i => i.id === action.payload.id ? action.payload : i)
+      return state
      },
      deleteUserSlice: (state, action) => {
         state = state.filter(i=>i.id !== action.payload)
