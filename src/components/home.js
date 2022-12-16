@@ -20,7 +20,6 @@ const Home = ({navigation}) => {
     dispatch(setUserSlice({...user, [prop]: event.target.value}));
   };
   const handleSubmit = () => {
-    console.log('User',user)
     user.id === 0
       ? dispatch({type: CREATE_USERS, user: {...user, id: nanoid(8)}})
       : dispatch({type: UPDATE_USER_BY_ID, user});
